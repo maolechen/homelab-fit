@@ -1,0 +1,10 @@
+---
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+const cloudflareToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
+---
+{plausibleDomain && (
+  <script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js"></script>
+)}
+{cloudflareToken && (
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token":"${cloudflareToken}"}`}></script>
+)}

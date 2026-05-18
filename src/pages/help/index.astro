@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getHelpHref, helpEmail } from "../../data/help.js";
+
+const helpHref = getHelpHref("Proxmox homelab build brief");
+const checklist = [
+  "Exact mini PC or motherboard model, including hardware revision if known.",
+  "CPU, RAM amount, NIC model, and current storage devices.",
+  "Planned workloads: NAS, Home Assistant, firewall VM, media server, containers, or test VMs.",
+  "Whether passthrough is required for HBA, GPU, USB, or another device.",
+  "Current backup target and restore test status.",
+  "The decision or failure you are trying to resolve.",
+  "What you already checked and what changed after each test."
+];
+---
+<BaseLayout
+  title="Proxmox Homelab Build Brief | Homelab Fit"
+  description="Prepare a concise Proxmox homelab build brief for hardware, NIC, ZFS, storage, passthrough, and backup decisions."
+>
+  <section class="page-head">
+    <p class="eyebrow">Build brief</p>
+    <h1>Prepare a useful Proxmox build brief before buying parts or changing storage.</h1>
+    <p>Use this when a hardware choice, NAS layout, NIC issue, passthrough plan, or backup design needs a clearer decision path.</p>
+    <div class="hero-actions">
+      <a class="button-link" href="/resources/homelab-build-checklist/">Open checklist</a>
+      <a class="button-link secondary" href={helpHref}>
+        {helpEmail ? "Email build brief" : "Use build template"}
+      </a>
+    </div>
+  </section>
+
+  <section class="content-block">
+    <h2>What To Collect</h2>
+    <ul>
+      {checklist.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section id="build-template" class="content-section help-template">
+    <h2>Copy This Brief</h2>
+    <pre><code>{`Proxmox build or issue:
+
+Hardware:
+- Mini PC / motherboard:
+- CPU:
+- RAM:
+- NIC model:
+- Storage devices:
+
+Planned workloads:
+
+Storage plan:
+
+Passthrough needed:
+
+Backup destination:
+
+Current problem or decision:
+
+What I already checked:
+
+Notes or logs:
+`}</code></pre>
+  </section>
+</BaseLayout>

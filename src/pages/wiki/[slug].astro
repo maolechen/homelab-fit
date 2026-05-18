@@ -1,0 +1,215 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getRelatedPages, pages } from "../../data/homelab-pages.js";
+import { getOfferForPage } from "../../data/offers.js";
+import { getHelpHref, highIntentHelpSlugs } from "../../data/help.js";
+
+export function getStaticPaths() {
+  return pages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const relatedPages = getRelatedPages(page);
+const typeLabel = page.page_type.replaceAll("_", " ");
+const content = page.content;
+const pageTitle = page.displayTitle;
+const seoTitle = content?.seo_title ?? `${pageTitle} | Homelab Fit`;
+const metaDescription = content?.meta_description ?? content?.summary ?? page.search_intent;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? "https://homelab-fit.example.com").toString();
+const appliesTo = content?.applies_to?.join(", ") ?? page.applies_to;
+const offer = content ? getOfferForPage(page) : null;
+const showHelpCta = content && highIntentHelpSlugs.has(page.slug);
+const helpHref = getHelpHref(`${page.displayTitle} build brief`);
+const articleJsonLd = content ? {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: pageTitle,
+  description: metaDescription,
+  dateModified: content.updated_at,
+  datePublished: content.updated_at,
+  mainEntityOfPage: canonicalUrl,
+  author: {
+    "@type": "Organization",
+    name: "Homelab Fit"
+  },
+  citation: content.sources.map((source) => source.url)
+} : null;
+const normalizeFaq = (item) => Array.isArray(item)
+  ? { question: item[0], answer: item[1] }
+  : item;
+---
+<BaseLayout
+  title={seoTitle}
+  description={metaDescription}
+  noindex={!content}
+  pageType="article"
+  publishedTime={content?.updated_at}
+  modifiedTime={content?.updated_at}
+>
+  {articleJsonLd && (
+    <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  )}
+  <article class="article">
+    <header class="article-head">
+      <p class="eyebrow">{typeLabel}</p>
+      <h1>{pageTitle}</h1>
+      <p>{content?.summary ?? page.search_intent}</p>
+      <div class="article-meta">
+        <span>Primary query: {page.primary_query}</span>
+        <span>Applies to: {appliesTo}</span>
+        <span>Opportunity: {page.opportunityScore || page.priority || "TBD"}</span>
+        <span>{content ? "Source-backed draft" : "Noindex candidate"}</span>
+      </div>
+      <p class="article-disclaimer">Independent third-party notes. Verify critical homelab changes against primary docs and your exact hardware revision.</p>
+    </header>
+
+    {content ? (
+      <>
+        <section class="answer-box">
+          <h2>Quick Answer</h2>
+          <p>{content.summary}</p>
+        </section>
+
+        {offer && (
+          <aside class="conversion-strip">
+            <p class="eyebrow">{offer.eyebrow}</p>
+            <div>
+              <h2>{offer.title}</h2>
+              <p>{offer.body}</p>
+            </div>
+            <a class="button-link" href={offer.href}>{offer.label}</a>
+          </aside>
+        )}
+
+        <section class="content-section">
+          <h2>Key Facts</h2>
+          <dl class="fact-list">
+            {content.facts.map(([label, value]) => (
+              <div>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section class="detail-grid">
+          <div>
+            <h2>Recommended Checks</h2>
+            <ol>
+              {content.steps.map((step) => <li>{step}</li>)}
+            </ol>
+          </div>
+          <div>
+            <h2>Verification</h2>
+            <ul>
+              {content.verification.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </section>
+
+        {showHelpCta && (
+          <aside class="help-cta">
+            <div>
+              <p class="eyebrow">Need a build brief?</p>
+              <h2>Capture the host facts before buying or changing storage.</h2>
+              <p>Record the exact mini PC, NIC, drives, workloads, passthrough plan, and backup destination so the next decision is based on the real setup.</p>
+            </div>
+            <a class="button-link secondary" href={helpHref}>Prepare brief</a>
+          </aside>
+        )}
+
+        <section class="content-section">
+          <h2>Warnings</h2>
+          <ul>
+            {content.warnings.map((warning) => <li>{warning}</li>)}
+          </ul>
+        </section>
+
+        {(content.best_for || content.not_for) && (
+          <section class="fit-grid">
+            {content.best_for && (
+              <div>
+                <h2>Best For</h2>
+                <ul>{content.best_for.map((item) => <li>{item}</li>)}</ul>
+              </div>
+            )}
+            {content.not_for && (
+              <div>
+                <h2>Not For</h2>
+                <ul>{content.not_for.map((item) => <li>{item}</li>)}</ul>
+              </div>
+            )}
+          </section>
+        )}
+
+        {content.common_mistakes && (
+          <section class="content-section">
+            <h2>Common Mistakes</h2>
+            <ul>{content.common_mistakes.map((mistake) => <li>{mistake}</li>)}</ul>
+          </section>
+        )}
+
+        {content.examples && (
+          <section class="content-section">
+            <h2>Examples</h2>
+            <div class="example-list">
+              {content.examples.map((example) => (
+                <figure class="code-example">
+                  <figcaption><strong>{example.title}</strong></figcaption>
+                  <pre><code>{example.code}</code></pre>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {content.faq && (
+          <section class="content-section">
+            <h2>FAQ</h2>
+            <div class="qa-list">
+              {content.faq.map((item) => {
+                const faq = normalizeFaq(item);
+                return (
+                  <details>
+                    <summary>{faq.question}</summary>
+                    <p>{faq.answer}</p>
+                  </details>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        <section class="content-section">
+          <h2>Sources</h2>
+          <div class="source-list">
+            {content.sources.map((source) => (
+              <a class="source-link" href={source.url}>
+                <strong>{source.title}</strong>
+                <span>Accessed {source.accessed_at}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      </>
+    ) : (
+      <section class="answer-box">
+        <h2>Draft Status</h2>
+        <p>This candidate page is marked <strong>noindex</strong> until it has source-backed facts, fit criteria, verification checks, warnings, and sources.</p>
+      </section>
+    )}
+
+    <section class="content-section">
+      <h2>Related Pages</h2>
+      <div class="related-list">
+        {relatedPages.map((related) => (
+          <a href={`/wiki/${related.slug}/`}>
+            <strong>{related.displayTitle}</strong>
+            <span>{related.cardDescription}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</BaseLayout>

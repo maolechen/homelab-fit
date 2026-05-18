@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pages, pageTypes } from "../../data/homelab-pages.js";
+---
+<BaseLayout title="Page Types | Homelab Fit">
+  <section class="page-head">
+    <p class="eyebrow">Structure</p>
+    <h1>Page types</h1>
+    <p>Each type maps to a repeatable template so the site can scale as structured compatibility data instead of thin prose.</p>
+  </section>
+
+  <section class="type-list">
+    {pageTypes.map((type) => {
+      const typePages = pages.filter((page) => page.page_type === type);
+      return (
+        <a class="type-row" href={`/types/${type}/`}>
+          <span>
+            <strong>{type.replaceAll("_", " ")}</strong>
+            <small>{typePages.slice(0, 3).map((page) => page.title).join(" · ")}</small>
+          </span>
+          <em>{typePages.length} pages</em>
+        </a>
+      );
+    })}
+  </section>
+</BaseLayout>

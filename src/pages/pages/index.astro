@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pages, pageTypes } from "../../data/homelab-pages.js";
+
+const sortedPages = [...pages].sort((a, b) => b.priority - a.priority || a.title.localeCompare(b.title));
+---
+<BaseLayout title="All Pages | Homelab Fit">
+  <section class="page-head">
+    <p class="eyebrow">Inventory</p>
+    <h1>All Proxmox homelab pages</h1>
+    <p>Filter the static inventory by title, query, type, hardware context, and publish tier.</p>
+  </section>
+
+  <section class="tool-panel">
+    <div class="filters">
+      <input id="page-search" type="search" placeholder="Search N100, ZFS, NIC, passthrough..." aria-label="Search page inventory" />
+      <select id="type-filter" aria-label="Filter by page type">
+        <option value="">All types</option>
+        {pageTypes.map((type) => <option value={type}>{type.replaceAll("_", " ")}</option>)}
+      </select>
+      <select id="tier-filter" aria-label="Filter by value tier">
+        <option value="">All tiers</option>
+        <option value="A">A: promote</option>
+        <option value="B">B: support</option>
+        <option value="C">C: noindex</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table id="page-table">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>Type</th>
+            <th>Intent</th>
+            <th>Applies to</th>
+            <th>Tier</th>
+            <th>Priority</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedPages.map((page) => (
+            <tr data-type={page.page_type} data-tier={page.valueTier} data-search={`${page.displayTitle} ${page.title} ${page.primary_query} ${page.cardDescription} ${page.applies_to} ${page.valueTierLabel}`.toLowerCase()}>
+              <td><a href={`/wiki/${page.slug}/`}>{page.displayTitle}</a><span>{page.primary_query}</span></td>
+              <td>{page.intentType.replaceAll("_", " ")}</td>
+              <td>{page.cardDescription}</td>
+              <td>{page.applies_to}</td>
+              <td>{page.valueTierLabel}</td>
+              <td>{page.opportunityScore || page.priority || "TBD"}</td>
+              <td>{page.isPublishable ? "Source-backed" : "Noindex draft"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script>
+    const search = document.querySelector("#page-search");
+    const typeFilter = document.querySelector("#type-filter");
+    const tierFilter = document.querySelector("#tier-filter");
+    const rows = [...document.querySelectorAll("#page-table tbody tr")];
+    const params = new URLSearchParams(window.location.search);
+    search.value = params.get("q") || "";
+
+    function applyFilters() {
+      const query = search.value.trim().toLowerCase();
+      const type = typeFilter.value;
+      const tier = tierFilter.value;
+      for (const row of rows) {
+        const matchesQuery = !query || row.dataset.search.includes(query);
+        const matchesType = !type || row.dataset.type === type;
+        const matchesTier = !tier || row.dataset.tier === tier;
+        row.hidden = !(matchesQuery && matchesType && matchesTier);
+      }
+    }
+
+    search.addEventListener("input", applyFilters);
+    typeFilter.addEventListener("change", applyFilters);
+    tierFilter.addEventListener("change", applyFilters);
+    applyFilters();
+  </script>
+</BaseLayout>

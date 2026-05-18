@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const checks = [
+  {
+    title: "Host Fit",
+    items: [
+      "Confirm CPU virtualization support and BIOS options.",
+      "Record RAM capacity, replaceability, and realistic workload headroom.",
+      "Identify the exact NIC model, not only the port speed.",
+      "Check cooling, noise, power supply, and whether the chassis can sustain your workload."
+    ]
+  },
+  {
+    title: "Storage Path",
+    items: [
+      "List every boot, VM, container, NAS, and backup disk.",
+      "Decide whether Proxmox or a NAS VM owns each disk.",
+      "For ZFS, plan drive count, mirror/raidz shape, scrub checks, and capacity headroom.",
+      "Keep the backup destination off the same host."
+    ]
+  },
+  {
+    title: "Networking",
+    items: [
+      "Record expected link speed, switch port, cable type, and bridge name.",
+      "Keep local console access before changing network config.",
+      "Test sustained transfers after install.",
+      "Document VLANs and gateway settings if the host is also a firewall lab."
+    ]
+  },
+  {
+    title: "Passthrough And Recovery",
+    items: [
+      "Confirm IOMMU support and device isolation before buying around passthrough.",
+      "Keep Proxmox boot storage separate from passed-through controllers.",
+      "Write a rollback plan for HBA, GPU, and USB passthrough changes.",
+      "Run a restore test before storing important data."
+    ]
+  }
+];
+---
+<BaseLayout title="Proxmox Homelab Build Checklist | Homelab Fit" description="A free Proxmox homelab planning checklist for mini PCs, NICs, ZFS storage, passthrough, backups, and recovery.">
+  <section class="page-head">
+    <p class="eyebrow">Free checklist</p>
+    <h1>Proxmox homelab build checklist</h1>
+    <p>A practical checklist for mini PC NAS builds, 2.5G networking, ZFS mirrors, HBA passthrough, and recovery-ready homelab operations.</p>
+    <a class="button-link" href="/downloads/proxmox-homelab-build-checklist.md">Download Markdown checklist</a>
+  </section>
+
+  <section class="checklist-grid">
+    {checks.map((group) => (
+      <article class="content-section">
+        <h2>{group.title}</h2>
+        <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="content-section">
+    <h2>Related Pages</h2>
+    <div class="template-links">
+      <a href="/wiki/proxmox-mini-pc-nas-checklist/">
+        <strong>Proxmox Mini PC NAS Checklist</strong>
+        <span>CPU, RAM, NIC, storage, cooling, and backup fit before purchase.</span>
+      </a>
+      <a href="/wiki/intel-n100-proxmox-nas/">
+        <strong>Intel N100 Proxmox NAS Compatibility</strong>
+        <span>Low-power mini PC fit with storage and NIC caveats.</span>
+      </a>
+      <a href="/wiki/proxmox-zfs-mirror-mini-pc/">
+        <strong>Proxmox ZFS Mirror On Mini PC</strong>
+        <span>Two-drive local storage planning for small hosts.</span>
+      </a>
+      <a href="/wiki/hba-passthrough-truenas-vm/">
+        <strong>HBA Passthrough To TrueNAS VM</strong>
+        <span>IOMMU, storage ownership, boot separation, and recovery checks.</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPageBySlug } from "../../data/homelab-pages.js";
+import { featuredOffers } from "../../data/offers.js";
+---
+<BaseLayout title="Homelab Planning Templates | Homelab Fit" description="Homelab Fit planning paths for Proxmox mini PC buyers, storage layouts, passthrough checks, and operations runbooks.">
+  <section class="page-head">
+    <p class="eyebrow">Templates</p>
+    <h1>Planning paths for Proxmox homelab builders</h1>
+    <p>These packs turn compatibility pages into reusable buyer scorecards, storage planners, passthrough briefs, and recovery runbooks.</p>
+  </section>
+
+  <section class="template-list">
+    {featuredOffers.map((offer) => (
+      <article class="template-panel" id={offer.id}>
+        <div>
+          <p class="eyebrow">{offer.eyebrow}</p>
+          <h2>{offer.title}</h2>
+          <p>{offer.body}</p>
+          <p><strong>Best fit:</strong> {offer.fit}</p>
+          {offer.resourceHref && <a class="button-link" href={offer.resourceHref}>{offer.resourceLabel}</a>}
+        </div>
+        <div class="template-links">
+          <h3>Start with these pages</h3>
+          {offer.pages.map((slug) => {
+            const page = getPageBySlug(slug);
+            return page && (
+              <a href={`/wiki/${page.slug}/`}>
+                <strong>{page.displayTitle}</strong>
+                <span>{page.cardDescription}</span>
+              </a>
+            );
+          })}
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="content-block">
+    <h2>Commercial Direction</h2>
+    <p>The strongest path is not generic Proxmox tutorials. It is structured buying and build guidance: scorecards, known-good hardware lists, storage planners, and recovery-ready build briefs.</p>
+  </section>
+</BaseLayout>

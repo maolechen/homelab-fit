@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pages, pageTypes, publishablePages } from "../data/homelab-pages.js";
+import { featuredOffers } from "../data/offers.js";
+import { siteConfig } from "../data/site.js";
+
+const topPages = [...publishablePages]
+  .sort((a, b) => b.opportunityScore - a.opportunityScore || b.priority - a.priority || a.displayTitle.localeCompare(b.displayTitle))
+  .slice(0, 12);
+const stats = {
+  pages: pages.length,
+  publishable: publishablePages.length,
+  hardware: pages.filter((page) => page.page_type === "hardware_fit").length,
+  storage: pages.filter((page) => page.page_type === "storage_fit").length,
+  passthrough: pages.filter((page) => page.page_type === "passthrough_fit").length
+};
+---
+<BaseLayout title={`${siteConfig.name} | Proxmox Homelab Compatibility`} description={siteConfig.description}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Proxmox homelab compatibility</p>
+      <h1>Choose mini PC, NAS, and passthrough hardware with fewer expensive surprises.</h1>
+      <p class="lede">Source-backed fit notes for Proxmox mini PCs, 2.5G NICs, ZFS mirrors, HBA passthrough, NAS VMs, and low-power homelab builds.</p>
+      <form class="search-shell" action="/pages/" method="get" data-analytics-event="Site Search" data-analytics-label="Home hero search">
+        <input name="q" type="search" placeholder="Search N100, ZFS, i226-V, passthrough..." aria-label="Search pages" />
+        <button type="submit">Search</button>
+      </form>
+      <div class="hero-actions">
+        <a class="button-link" href="/resources/homelab-build-checklist/">Open checklist</a>
+        <a class="button-link secondary" href="/pages/">Browse pages</a>
+        <a class="text-link" href="/templates/">View planners</a>
+      </div>
+    </div>
+    <dl class="stat-grid" aria-label="Site coverage">
+      <div><dt>{stats.pages}</dt><dd>candidate pages</dd></div>
+      <div><dt>{stats.publishable}</dt><dd>source-backed drafts</dd></div>
+      <div><dt>{stats.hardware}</dt><dd>hardware fits</dd></div>
+      <div><dt>{stats.passthrough}</dt><dd>passthrough notes</dd></div>
+    </dl>
+  </section>
+
+  <section class="section-band">
+    <p class="notice">Independent compatibility notes. Product names are used to describe homelab hardware and software fit, not to imply endorsement.</p>
+    <div class="section-heading">
+      <h2>Priority Pages</h2>
+      <a href="/pages/">View all</a>
+    </div>
+    <div class="page-grid">
+      {topPages.map((page) => (
+        <a class="page-card" href={`/wiki/${page.slug}/`}>
+          <span class="type-pill">{page.intentType.replaceAll("_", " ")}</span>
+          <h3>{page.displayTitle}</h3>
+          <p>{page.cardDescription}</p>
+          <span class="meta">Opportunity {page.opportunityScore || page.priority || "TBD"}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band compact">
+    <div class="section-heading">
+      <h2>Planning Packs</h2>
+      <a href="/templates/">View all</a>
+    </div>
+    <div class="offer-grid">
+      {featuredOffers.slice(0, 4).map((offer) => (
+        <a class="offer-card" href={`/templates/#${offer.id}`}>
+          <span class="type-pill">{offer.eyebrow}</span>
+          <h3>{offer.title}</h3>
+          <p>{offer.body}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band compact">
+    <div class="section-heading">
+      <h2>Page Types</h2>
+      <a href="/types/">Explore</a>
+    </div>
+    <div class="type-grid">
+      {pageTypes.map((type) => (
+        <a href={`/types/${type}/`}>
+          <strong>{type.replaceAll("_", " ")}</strong>
+          <span>{pages.filter((page) => page.page_type === type).length} pages</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

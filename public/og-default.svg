@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f8faf7"/>
+  <rect x="80" y="80" width="1040" height="470" rx="18" fill="#176b68"/>
+  <text x="130" y="210" fill="#fff" font-family="Arial, sans-serif" font-size="72" font-weight="700">Homelab Fit</text>
+  <text x="130" y="300" fill="#dcebe7" font-family="Arial, sans-serif" font-size="38">Proxmox mini PC, NAS, NIC, ZFS, and passthrough notes</text>
+  <rect x="130" y="380" width="260" height="72" rx="10" fill="#b86b2d"/>
+  <text x="158" y="428" fill="#fff" font-family="Arial, sans-serif" font-size="28" font-weight="700">Build smarter</text>
+</svg>

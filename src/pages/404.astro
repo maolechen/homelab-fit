@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Page Not Found | Homelab Fit" noindex={true}>
+  <section class="page-head">
+    <p class="eyebrow">404</p>
+    <h1>This homelab note is not here yet.</h1>
+    <p>Search the inventory for hardware, storage, networking, or passthrough notes.</p>
+    <form class="search-shell" action="/pages/" method="get">
+      <input name="q" type="search" placeholder="Search Proxmox, ZFS, NICs..." aria-label="Search pages" />
+      <button type="submit">Search</button>
+    </form>
+  </section>
+</BaseLayout>

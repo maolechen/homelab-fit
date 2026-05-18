@@ -1,0 +1,15 @@
+{
+  "name": "Homelab Fit",
+  "short_name": "Homelab Fit",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8faf7",
+  "theme_color": "#176b68",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

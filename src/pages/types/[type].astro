@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pages, pageTypes } from "../../data/homelab-pages.js";
+
+export function getStaticPaths() {
+  return pageTypes.map((type) => ({ params: { type } }));
+}
+
+const { type } = Astro.params;
+const typePages = pages
+  .filter((page) => page.page_type === type)
+  .sort((a, b) => b.priority - a.priority || a.title.localeCompare(b.title));
+---
+<BaseLayout title={`${type.replaceAll("_", " ")} | Homelab Fit`}>
+  <section class="page-head">
+    <p class="eyebrow">Page type</p>
+    <h1>{type.replaceAll("_", " ")}</h1>
+    <p>{typePages.length} candidate pages in this template family.</p>
+  </section>
+
+  <section class="page-grid list-layout">
+    {typePages.map((page) => (
+      <a class="page-card" href={`/wiki/${page.slug}/`}>
+        <span class="type-pill">{page.applies_to}</span>
+        <h2>{page.displayTitle}</h2>
+        <p>{page.cardDescription}</p>
+        <span class="meta">{page.primary_query}</span>
+      </a>
+    ))}
+  </section>
+</BaseLayout>
