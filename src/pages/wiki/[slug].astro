@@ -32,6 +32,73 @@ const visualByType = {
 };
 const visualSrc = content?.hero_image ?? visualByType[page.page_type] ?? "/media/article-visuals/hardware-fit.svg";
 const visualAlt = content?.image_alt ?? `${pageTitle} editorial diagram`;
+const photoByType = {
+  hardware_fit: {
+    src: "/media/photos/pc-components.jpg",
+    alt: "PC components laid out on a desk",
+    caption: "Real hardware choices get messy quickly: chassis, expansion, thermals, storage, and recovery all compete for space.",
+    credit: "Brecht Corbeel",
+    source: "https://unsplash.com/photos/pc-components-sit-on-a-cluttered-desk-GXPK7_d49wk",
+    license: "Unsplash License"
+  },
+  buyer_checklist: {
+    src: "/media/photos/pc-components.jpg",
+    alt: "PC components laid out on a desk",
+    caption: "A good checklist turns a pile of tempting parts into a build that can actually be maintained.",
+    credit: "Brecht Corbeel",
+    source: "https://unsplash.com/photos/pc-components-sit-on-a-cluttered-desk-GXPK7_d49wk",
+    license: "Unsplash License"
+  },
+  networking_fit: {
+    src: "/media/photos/network-switch.jpg",
+    alt: "Ethernet cables connected to networking equipment",
+    caption: "Networking pages deserve a real cable-and-port reminder: link speed, switch behavior, and bridge mapping are physical problems too.",
+    credit: "Albert Stoynov",
+    source: "https://unsplash.com/photos/a-close-up-of-a-network-with-wires-connected-to-it-dyUp7WPu5q4",
+    license: "Unsplash License"
+  },
+  error_fix: {
+    src: "/media/photos/network-switch.jpg",
+    alt: "Ethernet cables connected to networking equipment",
+    caption: "Most Proxmox network fixes start with ordinary evidence: link lights, interface names, cables, switch ports, and one known-good test.",
+    credit: "Albert Stoynov",
+    source: "https://unsplash.com/photos/a-close-up-of-a-network-with-wires-connected-to-it-dyUp7WPu5q4",
+    license: "Unsplash License"
+  },
+  storage_fit: {
+    src: "/media/photos/hard-drive.jpg",
+    alt: "Close-up of a hard disk drive circuit board",
+    caption: "Storage decisions are where homelabs become real infrastructure: endurance, backups, disk ownership, and restore tests all matter.",
+    credit: "Bruce Hong",
+    source: "https://unsplash.com/photos/black-and-green-computer-hard-disk-drive-0RyLIf84mXU",
+    license: "Unsplash License"
+  },
+  passthrough_fit: {
+    src: "/media/photos/pc-components.jpg",
+    alt: "PC components laid out on a desk",
+    caption: "Passthrough planning is hardware planning: controller ownership, IOMMU groups, boot separation, and a rollback path need to be visible.",
+    credit: "Brecht Corbeel",
+    source: "https://unsplash.com/photos/pc-components-sit-on-a-cluttered-desk-GXPK7_d49wk",
+    license: "Unsplash License"
+  },
+  comparison: {
+    src: "/media/photos/server-rack.jpg",
+    alt: "Two server racks filled with electronic components and wires",
+    caption: "Comparisons are most useful when they keep the whole environment in view: power, noise, expansion, serviceability, and recovery.",
+    credit: "Eric Stoynov",
+    source: "https://unsplash.com/photos/two-server-racks-filled-with-electronic-components-and-wires-k27hkqXuveo",
+    license: "Unsplash License"
+  },
+  ops_checklist: {
+    src: "/media/photos/server-rack.jpg",
+    alt: "Two server racks filled with electronic components and wires",
+    caption: "Operations pages should feel grounded: the goal is not novelty, it is a system that can survive updates, outages, and restores.",
+    credit: "Eric Stoynov",
+    source: "https://unsplash.com/photos/two-server-racks-filled-with-electronic-components-and-wires-k27hkqXuveo",
+    license: "Unsplash License"
+  }
+};
+const articlePhoto = content?.editorial_photo ?? photoByType[page.page_type];
 const articleJsonLd = content ? {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -134,6 +201,19 @@ const normalizeFaq = (item) => Array.isArray(item)
               </table>
             </div>
           </section>
+        )}
+
+        {articlePhoto && (
+          <figure class="article-photo-figure">
+            <img src={articlePhoto.src} alt={articlePhoto.alt} loading="lazy" />
+            <figcaption>
+              <span>{articlePhoto.caption}</span>
+              <a href={articlePhoto.source}>
+                Photo by {articlePhoto.credit} on Unsplash
+              </a>
+              <a href="https://unsplash.com/license">{articlePhoto.license}</a>
+            </figcaption>
+          </figure>
         )}
 
         <section class="detail-grid">

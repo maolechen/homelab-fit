@@ -626,6 +626,43 @@ body {
   text-align: center;
 }
 
+.article-photo-figure {
+  max-width: 860px;
+  margin: 32px auto;
+}
+
+.article-photo-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 4px;
+  filter: saturate(0.92) contrast(1.04);
+  box-shadow: 0 20px 52px rgba(24, 23, 21, 0.14);
+}
+
+.article-photo-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.article-photo-figure figcaption span {
+  flex-basis: 100%;
+  color: #514b42;
+  font-size: 13px;
+}
+
+.article-photo-figure figcaption a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .essay-section,
 .article > .answer-box,
 .article > .content-section,
@@ -633,6 +670,7 @@ body {
 .article > .fit-grid,
 .article > .help-cta,
 .article > .conversion-strip,
+.article-photo-figure,
 .field-note {
   max-width: 760px;
   margin-left: auto;
