@@ -108,6 +108,7 @@ const readingPath = content?.reading_path
 const decisionScores = content?.decision_scores?.map((score) => Array.isArray(score)
   ? { label: score[0], score: score[1], note: score[2] }
   : score) ?? [];
+const decisionMatrix = content?.decision_matrix;
 const quickAnswer = content?.quick_answer ?? content?.summary;
 const sourceCount = content?.sources?.length ?? 0;
 const articleJsonLd = content ? {
@@ -201,6 +202,33 @@ const normalizeFaq = (item) => Array.isArray(item)
           </section>
         )}
 
+        {content.buyer_scenarios && (
+          <section class="content-section choose-path-section">
+            <p class="eyebrow">Choose your path</p>
+            <h2>If this is your situation, start here</h2>
+            <div class="scenario-grid">
+              {content.buyer_scenarios.map((scenario) => (
+                <a class="scenario-card" href={scenario.href}>
+                  <span>{scenario.situation}</span>
+                  <strong>{scenario.path}</strong>
+                  <small>{scenario.why}</small>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {content.safe_default && (
+          <section class="safe-default">
+            <div>
+              <p class="eyebrow">Beginner-safe default</p>
+              <h2>{content.safe_default.title}</h2>
+              <p>{content.safe_default.body}</p>
+            </div>
+            <ul>{content.safe_default.checks.map((check) => <li>{check}</li>)}</ul>
+          </section>
+        )}
+
         {offer && (
           <aside class="conversion-strip">
             <p class="eyebrow">{offer.eyebrow}</p>
@@ -232,6 +260,13 @@ const normalizeFaq = (item) => Array.isArray(item)
           </section>
         )}
 
+        {content.upgrade_path && (
+          <section class="content-section upgrade-path-section">
+            <h2>Upgrade Path</h2>
+            <ol>{content.upgrade_path.map((step) => <li>{step}</li>)}</ol>
+          </section>
+        )}
+
         <section class="content-section">
           <h2>Key Facts</h2>
           <dl class="fact-list">
@@ -256,6 +291,26 @@ const normalizeFaq = (item) => Array.isArray(item)
                 </thead>
                 <tbody>
                   {content.decision_table.rows.map((row) => (
+                    <tr>{row.map((cell) => <td>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        {decisionMatrix && (
+          <section class="content-section wide-section decision-matrix-section">
+            <h2>{decisionMatrix.title}</h2>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    {decisionMatrix.headers.map((header) => <th>{header}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {decisionMatrix.rows.map((row) => (
                     <tr>{row.map((cell) => <td>{cell}</td>)}</tr>
                   ))}
                 </tbody>
@@ -357,13 +412,21 @@ const normalizeFaq = (item) => Array.isArray(item)
           </section>
         )}
 
+        {content.saveable_summary && (
+          <section class="saveable-summary">
+            <p class="eyebrow">Save this before checkout</p>
+            <h2>{content.saveable_summary.title}</h2>
+            <ul>{content.saveable_summary.items.map((item) => <li>{item}</li>)}</ul>
+          </section>
+        )}
+
         <aside class="printable-cta">
           <div>
             <p class="eyebrow">Save for later</p>
             <h2>Use the mini PC NAS pre-buy scorecard before checkout.</h2>
             <p>Print or save the checklist, then come back to this page when one of the risk checks fails.</p>
           </div>
-          <a class="button-link" href="/resources/homelab-build-checklist/">Open scorecard</a>
+          <a class="button-link" href="/resources/mini-pc-nas-scorecard/">Open scorecard</a>
         </aside>
 
         {content.examples && (

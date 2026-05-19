@@ -199,7 +199,7 @@ main {
 
 .path-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -764,9 +764,13 @@ body {
 .essay-section,
 .verdict-card,
 .trust-strip,
+.choose-path-section,
+.safe-default,
 .score-section,
+.upgrade-path-section,
 .prebuy-section,
 .risk-strip,
+.saveable-summary,
 .printable-cta,
 .reading-path,
 .article > .answer-box,
@@ -780,6 +784,71 @@ body {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.choose-path-section h2 {
+  margin-top: 0;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.scenario-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: #fffaf1;
+  text-decoration: none;
+}
+
+.scenario-card span {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.scenario-card small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.safe-default {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.75fr);
+  gap: 22px;
+  padding: 24px;
+  border: 1px solid #d5c7b4;
+  background: #f6eee1;
+}
+
+.safe-default h2,
+.saveable-summary h2 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.safe-default p {
+  margin-bottom: 0;
+}
+
+.safe-default ul,
+.saveable-summary ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.safe-default li,
+.saveable-summary li {
+  font-weight: 850;
 }
 
 .verdict-card {
@@ -892,6 +961,7 @@ body {
 }
 
 .risk-strip,
+.saveable-summary,
 .printable-cta,
 .reading-path {
   padding: 24px;
@@ -905,6 +975,11 @@ body {
 
 .risk-strip ul {
   margin-bottom: 0;
+}
+
+.saveable-summary {
+  border: 1px solid #d5c7b4;
+  background: #fffdf8;
 }
 
 .printable-cta {
@@ -950,6 +1025,124 @@ body {
 
 .reading-path-list small {
   color: var(--muted);
+}
+
+.scorecard-tool {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  gap: 20px;
+  width: min(1120px, calc(100% - 36px));
+  margin: 32px auto;
+  align-items: start;
+}
+
+.scorecard-form {
+  display: grid;
+  gap: 12px;
+}
+
+.scorecard-group {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.scorecard-group legend {
+  padding: 0 6px;
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.scorecard-group label {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: #fffaf1;
+  cursor: pointer;
+}
+
+.scorecard-group input {
+  margin-top: 4px;
+}
+
+.scorecard-group span {
+  display: grid;
+  gap: 3px;
+}
+
+.scorecard-group small,
+.scorecard-result li span {
+  color: var(--muted);
+}
+
+.scorecard-result {
+  position: sticky;
+  top: 84px;
+  padding: 24px;
+  border: 1px solid #d5c7b4;
+  background: #251d18;
+  color: #f9f2e8;
+}
+
+.scorecard-result h2 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.scorecard-result h3 {
+  margin: 22px 0 8px;
+}
+
+.scorecard-result p {
+  color: #e4d8ca;
+}
+
+.scorecard-meter {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 250, 241, 0.18);
+}
+
+.scorecard-meter i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: #e6ae73;
+  transition: width 160ms ease;
+}
+
+.scorecard-result ul {
+  display: grid;
+  gap: 10px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.scorecard-result li {
+  display: grid;
+  gap: 2px;
+  padding: 10px;
+  border: 1px solid rgba(255, 250, 241, 0.16);
+  background: rgba(255, 250, 241, 0.06);
+}
+
+.scorecard-result .button-link {
+  display: inline-block;
+  margin-top: 8px;
+  background: #f9f2e8;
+  color: #251d18;
 }
 
 .essay-section {
@@ -1058,12 +1251,19 @@ body {
   }
 
   .verdict-card,
-  .printable-cta {
+  .safe-default,
+  .printable-cta,
+  .scorecard-tool {
     grid-template-columns: 1fr;
   }
 
-  .score-grid {
+  .score-grid,
+  .scenario-grid {
     grid-template-columns: 1fr;
+  }
+
+  .scorecard-result {
+    position: static;
   }
 
   .article-head > p,

@@ -1,0 +1,173 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const groups = [
+  {
+    id: "workload",
+    title: "Workload",
+    options: [
+      ["Light services", "Home Assistant, DNS, a few containers, one light VM.", 0, "/wiki/proxmox-mini-pc-buying-checklist/"],
+      ["NAS plus services", "File storage plus containers, media, or small VMs.", 1, "/wiki/best-mini-pc-for-proxmox-nas/"],
+      ["Many VMs", "Several always-on VMs or CPU-heavy experiments.", 2, "/wiki/n100-n305-homelab-buyer-guide/"]
+    ]
+  },
+  {
+    id: "ram",
+    title: "RAM",
+    options: [
+      ["32 GB or more", "Comfortable beginner target for NAS plus services.", 0, "/wiki/proxmox-32gb-vs-64gb-ram/"],
+      ["16 GB", "Usable for light hosts, tight for NAS plus many services.", 1, "/wiki/proxmox-32gb-vs-64gb-ram/"],
+      ["Unknown or soldered low", "Risky if the workload grows.", 2, "/wiki/proxmox-mini-pc-buying-checklist/"]
+    ]
+  },
+  {
+    id: "nic",
+    title: "NIC",
+    options: [
+      ["Known Intel NIC", "Exact model is documented and Linux-friendly.", 0, "/wiki/proxmox-2-5g-i226-v/"],
+      ["Known Realtek NIC", "Exact model is known, but should be tested.", 1, "/wiki/proxmox-realtek-rtl8125/"],
+      ["Unknown NIC", "Listing only says 2.5G or 10G without model.", 2, "/wiki/proxmox-no-network-after-install/"]
+    ]
+  },
+  {
+    id: "storage",
+    title: "Storage ownership",
+    options: [
+      ["Proxmox owns disks", "Simple first build with VM disks and backups separated.", 0, "/wiki/proxmox-storage-layout-beginners/"],
+      ["NAS VM owns disks", "Possible, but disk ownership must be explicit.", 1, "/wiki/proxmox-nas-vm-disk-ownership/"],
+      ["Unclear owner", "Proxmox and a NAS VM may both depend on the same disks.", 2, "/wiki/proxmox-storage-layout-beginners/"]
+    ]
+  },
+  {
+    id: "backup",
+    title: "Backup target",
+    options: [
+      ["Outside the mini PC", "External NAS, another host, PBS, or rotation target.", 0, "/wiki/proxmox-restore-test-checklist/"],
+      ["Same room, separate disk", "Better than nothing, but still a shared-location risk.", 1, "/wiki/proxmox-backup-mini-pc/"],
+      ["No backup yet", "High risk for any NAS or important service.", 2, "/wiki/proxmox-restore-test-checklist/"]
+    ]
+  },
+  {
+    id: "passthrough",
+    title: "Passthrough",
+    options: [
+      ["None for first build", "Simplest path while learning Proxmox.", 0, "/wiki/proxmox-storage-layout-beginners/"],
+      ["USB device only", "Manageable if the physical port and rollback are documented.", 1, "/wiki/usb-passthrough-home-assistant/"],
+      ["HBA or GPU passthrough", "Needs IOMMU, isolation, boot separation, and rollback.", 2, "/wiki/proxmox-passthrough-beginner-checklist/"]
+    ]
+  },
+  {
+    id: "cooling",
+    title: "Cooling/noise",
+    options: [
+      ["Known quiet placement", "Box can live where it will run and sustain load.", 0, "/wiki/proxmox-low-power-homelab/"],
+      ["Small chassis unknown", "Needs a sustained test after install.", 1, "/wiki/proxmox-mini-pc-buying-checklist/"],
+      ["Hot or noisy location", "May be the wrong hardware class.", 2, "/wiki/proxmox-mini-pc-vs-used-server/"]
+    ]
+  }
+];
+---
+<BaseLayout title="Mini PC NAS Pre-buy Scorecard | Homelab Fit" description="Score a Proxmox mini PC NAS before buying by checking workload, RAM, NIC, storage ownership, backup, passthrough, and cooling risk.">
+  <section class="page-head">
+    <p class="eyebrow">Interactive scorecard</p>
+    <h1>Mini PC NAS pre-buy scorecard</h1>
+    <p>Answer seven checks before checkout. The score runs locally in your browser and does not store or send your choices.</p>
+  </section>
+
+  <section class="scorecard-tool" data-scorecard>
+    <form class="scorecard-form">
+      {groups.map((group) => (
+        <fieldset class="scorecard-group">
+          <legend>{group.title}</legend>
+          {group.options.map(([label, hint, risk, href], index) => (
+            <label>
+              <input type="radio" name={group.id} value={risk} data-label={label} data-hint={hint} data-next={href} checked={index === 0} />
+              <span>
+                <strong>{label}</strong>
+                <small>{hint}</small>
+              </span>
+            </label>
+          ))}
+        </fieldset>
+      ))}
+    </form>
+
+    <aside class="scorecard-result" aria-live="polite">
+      <p class="eyebrow">Risk read</p>
+      <h2 data-risk-title>Low risk</h2>
+      <p data-risk-body>This looks like a beginner-friendly Proxmox mini PC NAS path. Keep the plan boring and run one restore test before trusting data.</p>
+      <div class="scorecard-meter" aria-hidden="true"><i data-risk-meter></i></div>
+      <h3>Main checks</h3>
+      <ul data-risk-list>
+        <li>No high-risk choices selected yet.</li>
+      </ul>
+      <a class="button-link" data-risk-link href="/wiki/best-mini-pc-for-proxmox-nas/">Read the next guide</a>
+    </aside>
+  </section>
+
+  <section class="content-section">
+    <h2>How to use the result</h2>
+    <p>Low risk means the build is reasonable to research further. Medium risk means one or two details need proof before buying. High risk means the purchase should pause until the storage, NIC, backup, passthrough, or cooling plan is clearer.</p>
+  </section>
+
+  <script>
+    const tool = document.querySelector("[data-scorecard]");
+    const inputs = [...tool.querySelectorAll("input[type='radio']")];
+    const title = tool.querySelector("[data-risk-title]");
+    const body = tool.querySelector("[data-risk-body]");
+    const list = tool.querySelector("[data-risk-list]");
+    const meter = tool.querySelector("[data-risk-meter]");
+    const link = tool.querySelector("[data-risk-link]");
+
+    const copy = {
+      low: {
+        title: "Low risk",
+        body: "This looks like a beginner-friendly Proxmox mini PC NAS path. Keep the plan boring and run one restore test before trusting data.",
+        href: "/wiki/best-mini-pc-for-proxmox-nas/",
+        width: "32%"
+      },
+      medium: {
+        title: "Medium risk",
+        body: "This can still be a good build, but one or more details need proof before checkout. Resolve the highlighted risks first.",
+        href: "/wiki/proxmox-mini-pc-nas-checklist/",
+        width: "66%"
+      },
+      high: {
+        title: "High risk",
+        body: "Pause the purchase. The current plan has a recovery, storage, NIC, passthrough, or cooling risk that should be fixed before buying.",
+        href: "/wiki/proxmox-storage-layout-beginners/",
+        width: "100%"
+      }
+    };
+
+    function selectedInputs() {
+      return [...new FormData(tool.querySelector("form")).keys()].map((name) => tool.querySelector(`input[name="${name}"]:checked`));
+    }
+
+    function updateScore() {
+      const selected = selectedInputs();
+      const total = selected.reduce((sum, input) => sum + Number(input.value), 0);
+      const risky = selected.filter((input) => Number(input.value) > 0);
+      const highRisk = selected.find((input) => Number(input.value) === 2);
+      const level = total >= 8 || risky.length >= 5 ? "high" : total >= 3 ? "medium" : "low";
+      const result = copy[level];
+
+      title.textContent = result.title;
+      body.textContent = result.body;
+      meter.style.width = result.width;
+      link.href = highRisk?.dataset.next || risky[0]?.dataset.next || result.href;
+      link.textContent = level === "low" ? "Read the buyer guide" : "Fix the highest risk first";
+
+      list.replaceChildren(...(risky.length ? risky : [{ dataset: { label: "No high-risk choices selected yet.", hint: "Keep documenting the build before checkout." } }]).map((input) => {
+        const item = document.createElement("li");
+        item.innerHTML = `<strong>${input.dataset.label}</strong><span>${input.dataset.hint}</span>`;
+        return item;
+      }));
+    }
+
+    for (const input of inputs) {
+      input.addEventListener("change", updateScore);
+    }
+    updateScore();
+  </script>
+</BaseLayout>
