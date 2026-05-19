@@ -20,6 +20,18 @@ const appliesTo = content?.applies_to?.join(", ") ?? page.applies_to;
 const offer = content ? getOfferForPage(page) : null;
 const showHelpCta = content && highIntentHelpSlugs.has(page.slug);
 const helpHref = getHelpHref(`${page.displayTitle} build brief`);
+const visualByType = {
+  hardware_fit: "/media/article-visuals/hardware-fit.svg",
+  buyer_checklist: "/media/article-visuals/hardware-fit.svg",
+  networking_fit: "/media/article-visuals/networking-fit.svg",
+  error_fix: "/media/article-visuals/networking-fit.svg",
+  storage_fit: "/media/article-visuals/storage-fit.svg",
+  passthrough_fit: "/media/article-visuals/passthrough-fit.svg",
+  comparison: "/media/article-visuals/comparison.svg",
+  ops_checklist: "/media/article-visuals/ops-checklist.svg"
+};
+const visualSrc = content?.hero_image ?? visualByType[page.page_type] ?? "/media/article-visuals/hardware-fit.svg";
+const visualAlt = content?.image_alt ?? `${pageTitle} editorial diagram`;
 const articleJsonLd = content ? {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -65,10 +77,21 @@ const normalizeFaq = (item) => Array.isArray(item)
 
     {content ? (
       <>
+        <figure class="article-hero-figure">
+          <img src={visualSrc} alt={visualAlt} loading="eager" />
+          <figcaption>{content?.image_caption ?? "A structured build note for checking hardware, storage, networking, and recovery before the change becomes expensive."}</figcaption>
+        </figure>
+
         <section class="answer-box">
           <h2>Quick Answer</h2>
           <p>{content.summary}</p>
         </section>
+
+        {content.editorial_intro && (
+          <section class="essay-section">
+            <p>{content.editorial_intro}</p>
+          </section>
+        )}
 
         {offer && (
           <aside class="conversion-strip">
@@ -92,6 +115,26 @@ const normalizeFaq = (item) => Array.isArray(item)
             ))}
           </dl>
         </section>
+
+        {content.decision_table && (
+          <section class="content-section wide-section">
+            <h2>{content.decision_table.title}</h2>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    {content.decision_table.headers.map((header) => <th>{header}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {content.decision_table.rows.map((row) => (
+                    <tr>{row.map((cell) => <td>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
 
         <section class="detail-grid">
           <div>
@@ -117,6 +160,14 @@ const normalizeFaq = (item) => Array.isArray(item)
             </div>
             <a class="button-link secondary" href={helpHref}>Prepare brief</a>
           </aside>
+        )}
+
+        {content.field_notes && (
+          <section class="field-note">
+            <p class="eyebrow">{content.field_notes.eyebrow ?? "Field note"}</p>
+            <h2>{content.field_notes.title}</h2>
+            <p>{content.field_notes.body}</p>
+          </section>
         )}
 
         <section class="content-section">

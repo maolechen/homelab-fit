@@ -31,12 +31,15 @@ const stats = {
         <a class="text-link" href="/templates/">View planners</a>
       </div>
     </div>
-    <dl class="stat-grid" aria-label="Site coverage">
-      <div><dt>{stats.pages}</dt><dd>candidate pages</dd></div>
-      <div><dt>{stats.publishable}</dt><dd>source-backed drafts</dd></div>
-      <div><dt>{stats.hardware}</dt><dd>hardware fits</dd></div>
-      <div><dt>{stats.passthrough}</dt><dd>passthrough notes</dd></div>
-    </dl>
+    <aside class="home-visual" aria-label="Site coverage">
+      <img src="/media/article-visuals/hardware-fit.svg" alt="Mini PC homelab decision map" />
+      <dl class="stat-grid">
+        <div><dt>{stats.pages}</dt><dd>candidate pages</dd></div>
+        <div><dt>{stats.publishable}</dt><dd>source-backed drafts</dd></div>
+        <div><dt>{stats.hardware}</dt><dd>hardware fits</dd></div>
+        <div><dt>{stats.passthrough}</dt><dd>passthrough notes</dd></div>
+      </dl>
+    </aside>
   </section>
 
   <section class="section-band">

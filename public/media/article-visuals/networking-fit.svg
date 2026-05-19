@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Proxmox network validation diagram</title>
+  <desc id="desc">Editorial illustration of NIC, bridge, switch, cable, and VM connectivity checks.</desc>
+  <rect width="1600" height="900" fill="#f5f3ee"/>
+  <rect x="120" y="120" width="1360" height="660" rx="34" fill="#102527"/>
+  <rect x="210" y="214" width="280" height="190" rx="24" fill="#e8d6bf"/>
+  <rect x="660" y="214" width="280" height="190" rx="24" fill="#d9eadf"/>
+  <rect x="1110" y="214" width="280" height="190" rx="24" fill="#e8d6bf"/>
+  <rect x="435" y="548" width="730" height="124" rx="24" fill="#f7f3ec"/>
+  <g fill="none" stroke="#d98d4e" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M490 309h170"/>
+    <path d="M940 309h170"/>
+    <path d="M800 404v144"/>
+  </g>
+  <g fill="#102527" font-family="Arial, sans-serif" font-weight="700">
+    <text x="270" y="306" font-size="42">NIC</text>
+    <text x="704" y="306" font-size="42">Bridge</text>
+    <text x="1168" y="306" font-size="42">Switch</text>
+    <text x="560" y="624" font-size="42">Sustained transfer test</text>
+  </g>
+  <g fill="#f7f3ec" font-family="Georgia, serif">
+    <text x="210" y="700" font-size="54">A link light is not a network test.</text>
+  </g>
+</svg>

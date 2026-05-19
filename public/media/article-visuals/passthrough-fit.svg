@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Proxmox passthrough readiness diagram</title>
+  <desc id="desc">Editorial illustration of host, IOMMU boundary, VM owner, and rollback path.</desc>
+  <rect width="1600" height="900" fill="#f3efe6"/>
+  <rect x="118" y="116" width="1364" height="668" rx="40" fill="#18211f"/>
+  <rect x="230" y="238" width="360" height="262" rx="28" fill="#e8d6bf"/>
+  <rect x="1010" y="238" width="360" height="262" rx="28" fill="#d9eadf"/>
+  <rect x="686" y="210" width="228" height="320" rx="28" fill="#f2bd6b"/>
+  <path d="M590 368h96M914 368h96" stroke="#f5f1ea" stroke-width="12" stroke-linecap="round"/>
+  <path d="M800 530v96c0 44-36 80-80 80H388" fill="none" stroke="#c26f3d" stroke-width="12" stroke-linecap="round"/>
+  <g fill="#18211f" font-family="Arial, sans-serif" font-weight="700">
+    <text x="318" y="356" font-size="44">Host</text>
+    <text x="724" y="350" font-size="38">IOMMU</text>
+    <text x="1118" y="356" font-size="44">VM</text>
+    <text x="302" y="594" font-size="32">rollback path</text>
+  </g>
+  <text x="230" y="690" fill="#f5f1ea" font-family="Georgia, serif" font-size="54">Passthrough is a recovery design, not a checkbox.</text>
+</svg>

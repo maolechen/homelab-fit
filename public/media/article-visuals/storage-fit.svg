@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Proxmox storage ownership diagram</title>
+  <desc id="desc">Editorial illustration separating boot disk, VM storage, NAS data, and backup target.</desc>
+  <rect width="1600" height="900" fill="#f7f3ec"/>
+  <rect x="146" y="112" width="1308" height="676" rx="42" fill="#1b2523"/>
+  <g transform="translate(220 210)">
+    <rect width="220" height="360" rx="28" fill="#e8d6bf"/>
+    <rect x="44" y="56" width="132" height="32" rx="6" fill="#1b2523"/>
+    <rect x="44" y="132" width="132" height="32" rx="6" fill="#1b2523"/>
+    <rect x="44" y="208" width="132" height="32" rx="6" fill="#1b2523"/>
+    <text x="40" y="316" fill="#1b2523" font-family="Arial, sans-serif" font-weight="700" font-size="34">BOOT</text>
+  </g>
+  <g transform="translate(530 210)">
+    <rect width="220" height="360" rx="28" fill="#d9eadf"/>
+    <circle cx="110" cy="100" r="52" fill="#1b2523"/>
+    <circle cx="110" cy="220" r="52" fill="#1b2523"/>
+    <text x="48" y="316" fill="#1b2523" font-family="Arial, sans-serif" font-weight="700" font-size="34">VMs</text>
+  </g>
+  <g transform="translate(840 210)">
+    <rect width="220" height="360" rx="28" fill="#f2bd6b"/>
+    <path d="M62 90h96v180H62z" fill="#1b2523"/>
+    <path d="M84 112h52M84 150h52M84 188h52M84 226h52" stroke="#f2bd6b" stroke-width="8" stroke-linecap="round"/>
+    <text x="48" y="316" fill="#1b2523" font-family="Arial, sans-serif" font-weight="700" font-size="34">NAS</text>
+  </g>
+  <g transform="translate(1150 210)">
+    <rect width="220" height="360" rx="28" fill="#cfe0e5"/>
+    <path d="M58 154c0-54 46-96 104-82 42 10 70 46 70 90 0 54-44 98-98 98H70" fill="none" stroke="#1b2523" stroke-width="16" stroke-linecap="round"/>
+    <text x="28" y="316" fill="#1b2523" font-family="Arial, sans-serif" font-weight="700" font-size="34">BACKUP</text>
+  </g>
+  <text x="220" y="690" fill="#f7f3ec" font-family="Georgia, serif" font-size="54">Every disk needs one owner and one recovery path.</text>
+</svg>

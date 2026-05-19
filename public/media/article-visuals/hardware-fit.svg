@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Mini PC homelab hardware diagram</title>
+  <desc id="desc">Editorial illustration of a mini PC connected to storage, network, workloads, and backup checks.</desc>
+  <rect width="1600" height="900" fill="#f4f1eb"/>
+  <rect x="132" y="118" width="1336" height="664" rx="38" fill="#17201f"/>
+  <circle cx="256" cy="230" r="46" fill="#c26f3d"/>
+  <circle cx="368" cy="230" r="46" fill="#e3b261"/>
+  <rect x="205" y="386" width="396" height="178" rx="24" fill="#e9e1d4"/>
+  <rect x="245" y="426" width="316" height="52" rx="8" fill="#17201f"/>
+  <circle cx="286" cy="522" r="18" fill="#1d8a83"/>
+  <circle cx="346" cy="522" r="18" fill="#1d8a83"/>
+  <rect x="706" y="214" width="252" height="106" rx="18" fill="#f7f3ec"/>
+  <rect x="1050" y="214" width="252" height="106" rx="18" fill="#f7f3ec"/>
+  <rect x="706" y="398" width="252" height="106" rx="18" fill="#f7f3ec"/>
+  <rect x="1050" y="398" width="252" height="106" rx="18" fill="#f7f3ec"/>
+  <rect x="706" y="582" width="596" height="86" rx="18" fill="#d9eadf"/>
+  <g fill="none" stroke="#e3b261" stroke-width="8" stroke-linecap="round">
+    <path d="M601 475h70c42 0 42-208 84-208"/>
+    <path d="M601 475h70c42 0 42-24 84-24"/>
+    <path d="M601 475h70c42 0 42 150 84 150"/>
+    <path d="M958 267h92"/>
+    <path d="M958 451h92"/>
+    <path d="M958 625h92"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-weight="700" letter-spacing="0" fill="#17201f">
+    <text x="742" y="260" font-size="34">CPU / RAM</text>
+    <text x="1086" y="260" font-size="34">NIC model</text>
+    <text x="742" y="444" font-size="34">Storage</text>
+    <text x="1086" y="444" font-size="34">Cooling</text>
+    <text x="742" y="634" font-size="34">Backup outside the host</text>
+  </g>
+  <text x="206" y="681" fill="#f7f3ec" font-family="Georgia, serif" font-size="58">Buy the platform, not just the CPU.</text>
+</svg>

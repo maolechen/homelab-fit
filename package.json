@@ -8,6 +8,7 @@
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 127.0.0.1",
     "content:promote": "node scripts/promote-homelab-candidates.mjs",
+    "content:editorial": "node scripts/enhance-editorial-pages.mjs",
     "audit:homelab": "node scripts/audit-homelab-content.mjs"
   },
   "dependencies": {

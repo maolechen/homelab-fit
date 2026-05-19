@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Homelab comparison decision matrix</title>
+  <desc id="desc">Editorial comparison matrix for choosing between two Proxmox hardware or architecture options.</desc>
+  <rect width="1600" height="900" fill="#f7f3ec"/>
+  <rect x="132" y="120" width="1336" height="660" rx="42" fill="#132421"/>
+  <rect x="230" y="218" width="450" height="390" rx="30" fill="#e8d6bf"/>
+  <rect x="920" y="218" width="450" height="390" rx="30" fill="#d9eadf"/>
+  <circle cx="800" cy="414" r="84" fill="#f2bd6b"/>
+  <text x="764" y="432" fill="#132421" font-family="Arial, sans-serif" font-weight="700" font-size="48">vs</text>
+  <g fill="#132421" font-family="Arial, sans-serif" font-weight="700">
+    <text x="300" y="324" font-size="44">Option A</text>
+    <text x="990" y="324" font-size="44">Option B</text>
+  </g>
+  <g stroke="#132421" stroke-width="8" stroke-linecap="round">
+    <path d="M306 404h268M306 476h210M306 548h244"/>
+    <path d="M996 404h268M996 476h210M996 548h244"/>
+  </g>
+  <text x="230" y="700" fill="#f7f3ec" font-family="Georgia, serif" font-size="54">The better choice is the one you can recover.</text>
+</svg>
