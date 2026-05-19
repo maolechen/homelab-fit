@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getRelatedPages, pages } from "../../data/homelab-pages.js";
+import { getPageBySlug, getRelatedPages, pages } from "../../data/homelab-pages.js";
 import { getOfferForPage } from "../../data/offers.js";
 import { getHelpHref, highIntentHelpSlugs } from "../../data/help.js";
 
@@ -99,6 +99,17 @@ const photoByType = {
   }
 };
 const articlePhoto = content?.editorial_photo ?? photoByType[page.page_type];
+const readingPath = content?.reading_path
+  ?.map((item) => {
+    const linkedPage = getPageBySlug(item.slug);
+    return linkedPage ? { ...item, page: linkedPage } : null;
+  })
+  .filter(Boolean) ?? [];
+const decisionScores = content?.decision_scores?.map((score) => Array.isArray(score)
+  ? { label: score[0], score: score[1], note: score[2] }
+  : score) ?? [];
+const quickAnswer = content?.quick_answer ?? content?.summary;
+const sourceCount = content?.sources?.length ?? 0;
 const articleJsonLd = content ? {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -151,8 +162,38 @@ const normalizeFaq = (item) => Array.isArray(item)
 
         <section class="answer-box">
           <h2>Quick Answer</h2>
-          <p>{content.summary}</p>
+          <p>{quickAnswer}</p>
         </section>
+
+        {content.verdict && (
+          <section class="verdict-card">
+            <div>
+              <p class="eyebrow">{content.verdict.label ?? "Buyer verdict"}</p>
+              <h2>{content.verdict.headline}</h2>
+              <p>{content.verdict.recommendation}</p>
+            </div>
+            <dl>
+              <div>
+                <dt>Best for</dt>
+                <dd>{content.verdict.best_for}</dd>
+              </div>
+              <div>
+                <dt>Avoid if</dt>
+                <dd>{content.verdict.avoid_if}</dd>
+              </div>
+              <div>
+                <dt>Biggest risk</dt>
+                <dd>{content.verdict.biggest_risk}</dd>
+              </div>
+            </dl>
+          </section>
+        )}
+
+        <aside class="trust-strip">
+          <span>Last reviewed: {content.last_reviewed ?? content.updated_at}</span>
+          <span>{sourceCount} sources checked</span>
+          <span>Hardware caveat: verify the exact SKU and revision before buying.</span>
+        </aside>
 
         {content.editorial_intro && (
           <section class="essay-section">
@@ -169,6 +210,26 @@ const normalizeFaq = (item) => Array.isArray(item)
             </div>
             <a class="button-link" href={offer.href}>{offer.label}</a>
           </aside>
+        )}
+
+        {decisionScores.length > 0 && (
+          <section class="content-section score-section">
+            <h2>Decision Score</h2>
+            <div class="score-grid">
+              {decisionScores.map((item) => (
+                <div class="score-card">
+                  <div class="score-topline">
+                    <strong>{item.label}</strong>
+                    <span>{item.score}/5</span>
+                  </div>
+                  <div class="score-meter" aria-label={`${item.label} score ${item.score} out of 5`}>
+                    <i style={`width: ${Number(item.score) * 20}%`}></i>
+                  </div>
+                  <p>{item.note}</p>
+                </div>
+              ))}
+            </div>
+          </section>
         )}
 
         <section class="content-section">
@@ -203,6 +264,13 @@ const normalizeFaq = (item) => Array.isArray(item)
           </section>
         )}
 
+        {content.pre_buy_checks && (
+          <section class="content-section prebuy-section">
+            <h2>Before You Buy</h2>
+            <ol>{content.pre_buy_checks.map((item) => <li>{item}</li>)}</ol>
+          </section>
+        )}
+
         {articlePhoto && (
           <figure class="article-photo-figure">
             <img src={articlePhoto.src} alt={articlePhoto.alt} loading="lazy" />
@@ -214,6 +282,14 @@ const normalizeFaq = (item) => Array.isArray(item)
               <a href="https://unsplash.com/license">{articlePhoto.license}</a>
             </figcaption>
           </figure>
+        )}
+
+        {content.top_risks && (
+          <section class="risk-strip">
+            <p class="eyebrow">Watch the traps</p>
+            <h2>Most expensive beginner risks</h2>
+            <ul>{content.top_risks.map((risk) => <li>{risk}</li>)}</ul>
+          </section>
         )}
 
         <section class="detail-grid">
@@ -276,10 +352,19 @@ const normalizeFaq = (item) => Array.isArray(item)
 
         {content.common_mistakes && (
           <section class="content-section">
-            <h2>Common Mistakes</h2>
-            <ul>{content.common_mistakes.map((mistake) => <li>{mistake}</li>)}</ul>
+            <h2>Common Beginner Traps</h2>
+            <ul>{(content.beginner_traps ?? content.common_mistakes).map((mistake) => <li>{mistake}</li>)}</ul>
           </section>
         )}
+
+        <aside class="printable-cta">
+          <div>
+            <p class="eyebrow">Save for later</p>
+            <h2>Use the mini PC NAS pre-buy scorecard before checkout.</h2>
+            <p>Print or save the checklist, then come back to this page when one of the risk checks fails.</p>
+          </div>
+          <a class="button-link" href="/resources/homelab-build-checklist/">Open scorecard</a>
+        </aside>
 
         {content.examples && (
           <section class="content-section">
@@ -323,6 +408,22 @@ const normalizeFaq = (item) => Array.isArray(item)
             ))}
           </div>
         </section>
+
+        {readingPath.length > 0 && (
+          <section class="reading-path">
+            <p class="eyebrow">What to read next</p>
+            <h2>Follow the decision path</h2>
+            <div class="reading-path-list">
+              {readingPath.map((item, index) => (
+                <a href={`/wiki/${item.slug}/`}>
+                  <span>{index + 1}</span>
+                  <strong>{item.label ?? item.page.displayTitle}</strong>
+                  <small>{item.reason}</small>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
       </>
     ) : (
       <section class="answer-box">

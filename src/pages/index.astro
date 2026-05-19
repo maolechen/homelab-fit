@@ -4,6 +4,46 @@ import { pages, pageTypes, publishablePages } from "../data/homelab-pages.js";
 import { featuredOffers } from "../data/offers.js";
 import { siteConfig } from "../data/site.js";
 
+const startPaths = [
+  {
+    label: "I want a quiet NAS",
+    title: "Mini PC NAS",
+    body: "Start with drive ownership, NIC model, RAM, and off-box backups before choosing a box.",
+    href: "/wiki/best-mini-pc-for-proxmox-nas/"
+  },
+  {
+    label: "I want a cheap Proxmox box",
+    title: "Low-power Proxmox",
+    body: "Compare N100, N305, used office PCs, and the tradeoff between value and headroom.",
+    href: "/wiki/proxmox-mini-pc-buying-checklist/"
+  },
+  {
+    label: "I want 2.5G/10G networking",
+    title: "Network fit",
+    body: "Check NIC model, bridge behavior, switch path, cables, and sustained transfer risk.",
+    href: "/wiki/proxmox-2-5g-i226-v/"
+  },
+  {
+    label: "I want ZFS storage",
+    title: "Storage layout",
+    body: "Separate boot, VM disks, NAS data, backups, and restore tests before trusting data.",
+    href: "/wiki/proxmox-storage-layout-beginners/"
+  },
+  {
+    label: "I want passthrough",
+    title: "Passthrough risk",
+    body: "Verify IOMMU, device ownership, boot separation, and rollback before copying commands.",
+    href: "/wiki/proxmox-passthrough-beginner-checklist/"
+  }
+];
+
+const startHere = [
+  ["Lowest risk first build", "Use the mini PC buying checklist, then pick one hardware page."],
+  ["Already own hardware", "Search the exact model, then check NIC, storage, and backup caveats."],
+  ["NAS is the goal", "Read the NAS buyer guide before deciding on TrueNAS, ZFS, or passthrough."],
+  ["Firewall/router build", "Start with NIC and network recovery before adding storage complexity."]
+];
+
 const topPages = [...publishablePages]
   .sort((a, b) => b.opportunityScore - a.opportunityScore || b.priority - a.priority || a.displayTitle.localeCompare(b.displayTitle))
   .slice(0, 12);
@@ -18,9 +58,9 @@ const stats = {
 <BaseLayout title={`${siteConfig.name} | Proxmox Homelab Compatibility`} description={siteConfig.description}>
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">Proxmox homelab compatibility</p>
-      <h1>Choose mini PC, NAS, and passthrough hardware with fewer expensive surprises.</h1>
-      <p class="lede">Source-backed fit notes for Proxmox mini PCs, 2.5G NICs, ZFS mirrors, HBA passthrough, NAS VMs, and low-power homelab builds.</p>
+      <p class="eyebrow">Proxmox pre-buy decisions</p>
+      <h1>Before you buy a mini PC for Proxmox, check the traps.</h1>
+      <p class="lede">Beginner-friendly buying paths for quiet NAS builds, low-power Proxmox hosts, 2.5G networking, ZFS storage, and passthrough risk.</p>
       <form class="search-shell" action="/pages/" method="get" data-analytics-event="Site Search" data-analytics-label="Home hero search">
         <input name="q" type="search" placeholder="Search N100, ZFS, i226-V, passthrough..." aria-label="Search pages" />
         <button type="submit">Search</button>
@@ -33,19 +73,48 @@ const stats = {
     </div>
     <aside class="home-visual" aria-label="Site coverage">
       <img src="/media/article-visuals/hardware-fit.svg" alt="Mini PC homelab decision map" />
-      <dl class="stat-grid">
-        <div><dt>{stats.pages}</dt><dd>candidate pages</dd></div>
-        <div><dt>{stats.publishable}</dt><dd>source-backed drafts</dd></div>
-        <div><dt>{stats.hardware}</dt><dd>hardware fits</dd></div>
-        <div><dt>{stats.passthrough}</dt><dd>passthrough notes</dd></div>
-      </dl>
+      <div class="buyer-promise">
+        <strong>No hype scorecards.</strong>
+        <span>Each path asks what can break first: storage, NICs, cooling, backups, or recovery.</span>
+      </div>
     </aside>
+  </section>
+
+  <section class="section-band decision-entry">
+    <div class="section-heading">
+      <h2>Start with the job you need the box to do</h2>
+      <a href="/pages/">Search all pages</a>
+    </div>
+    <div class="path-grid">
+      {startPaths.map((path) => (
+        <a class="path-card" href={path.href}>
+          <span>{path.label}</span>
+          <h3>{path.title}</h3>
+          <p>{path.body}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-band compact start-here-panel">
+    <div>
+      <p class="eyebrow">Start here</p>
+      <h2>Pick the shortest safe path, then read deeper only where risk shows up.</h2>
+    </div>
+    <dl>
+      {startHere.map(([label, body]) => (
+        <div>
+          <dt>{label}</dt>
+          <dd>{body}</dd>
+        </div>
+      ))}
+    </dl>
   </section>
 
   <section class="section-band">
     <p class="notice">Independent compatibility notes. Product names are used to describe homelab hardware and software fit, not to imply endorsement.</p>
     <div class="section-heading">
-      <h2>Priority Pages</h2>
+      <h2>Buyer decision pages</h2>
       <a href="/pages/">View all</a>
     </div>
     <div class="page-grid">
@@ -58,6 +127,15 @@ const stats = {
         </a>
       ))}
     </div>
+  </section>
+
+  <section class="section-band compact stats-band">
+    <dl class="stat-grid">
+      <div><dt>{stats.pages}</dt><dd>candidate pages</dd></div>
+      <div><dt>{stats.publishable}</dt><dd>source-backed drafts</dd></div>
+      <div><dt>{stats.hardware}</dt><dd>hardware fits</dd></div>
+      <div><dt>{stats.passthrough}</dt><dd>passthrough notes</dd></div>
+    </dl>
   </section>
 
   <section class="section-band compact">

@@ -3,6 +3,15 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 const checks = [
   {
+    title: "Mini PC NAS Pre-buy Scorecard",
+    items: [
+      "Write the exact model, CPU, RAM ceiling, and NIC model before comparing prices.",
+      "Score storage ownership: Proxmox-managed disks, NAS VM passthrough, or external NAS.",
+      "Confirm where the first real backup will live outside the mini PC.",
+      "Mark any unknown NIC, drive, cooling, or restore detail as a buying blocker."
+    ]
+  },
+  {
     title: "Host Fit",
     items: [
       "Confirm CPU virtualization support and BIOS options.",
@@ -40,11 +49,11 @@ const checks = [
   }
 ];
 ---
-<BaseLayout title="Proxmox Homelab Build Checklist | Homelab Fit" description="A free Proxmox homelab planning checklist for mini PCs, NICs, ZFS storage, passthrough, backups, and recovery.">
+<BaseLayout title="Proxmox Homelab Pre-buy Scorecard | Homelab Fit" description="A free Proxmox homelab pre-buy scorecard for mini PCs, NICs, ZFS storage, passthrough, backups, and recovery.">
   <section class="page-head">
     <p class="eyebrow">Free checklist</p>
-    <h1>Proxmox homelab build checklist</h1>
-    <p>A practical checklist for mini PC NAS builds, 2.5G networking, ZFS mirrors, HBA passthrough, and recovery-ready homelab operations.</p>
+    <h1>Proxmox homelab pre-buy scorecard</h1>
+    <p>A practical scorecard for mini PC NAS builds, 2.5G networking, ZFS mirrors, HBA passthrough, and recovery-ready homelab operations.</p>
     <a class="button-link" href="/downloads/proxmox-homelab-build-checklist.md">Download Markdown checklist</a>
   </section>
 
@@ -65,7 +74,7 @@ const checks = [
         <span>CPU, RAM, NIC, storage, cooling, and backup fit before purchase.</span>
       </a>
       <a href="/wiki/intel-n100-proxmox-nas/">
-        <strong>Intel N100 Proxmox NAS Compatibility</strong>
+        <strong>Should You Buy Intel N100 For a Proxmox NAS?</strong>
         <span>Low-power mini PC fit with storage and NIC caveats.</span>
       </a>
       <a href="/wiki/proxmox-zfs-mirror-mini-pc/">

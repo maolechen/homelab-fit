@@ -1,4 +1,15 @@
-# Proxmox Homelab Build Checklist
+# Proxmox Homelab Pre-buy Scorecard
+
+## Mini PC NAS Pre-buy Scorecard
+
+- Exact model/SKU recorded.
+- CPU and RAM ceiling recorded.
+- NIC model recorded, not only port speed.
+- Internal storage slots counted.
+- Disk ownership chosen: Proxmox, NAS VM, or external NAS.
+- Backup target is outside the mini PC.
+- Cooling/noise placement is realistic.
+- Any unknown hardware detail is treated as a buying blocker.
 
 ## Host Fit
 

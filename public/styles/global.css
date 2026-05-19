@@ -185,6 +185,102 @@ main {
   box-shadow: 0 22px 58px rgba(24, 23, 21, 0.14);
 }
 
+.buyer-promise {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: #fffaf1;
+}
+
+.buyer-promise span {
+  color: var(--muted);
+}
+
+.path-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.path-card {
+  display: grid;
+  min-height: 220px;
+  align-content: start;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  text-decoration: none;
+}
+
+.path-card span {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.path-card h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.path-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.start-here-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 28px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: #251d18;
+  color: #f9f2e8;
+}
+
+.start-here-panel h2 {
+  margin: 0;
+  max-width: 560px;
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.04;
+}
+
+.start-here-panel dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.start-here-panel div div,
+.start-here-panel dl div {
+  padding: 14px;
+  border: 1px solid rgba(255, 250, 241, 0.16);
+  background: rgba(255, 250, 241, 0.06);
+}
+
+.start-here-panel dt {
+  font-weight: 850;
+}
+
+.start-here-panel dd {
+  margin: 4px 0 0;
+  color: #d7c8b8;
+}
+
+.stats-band .stat-grid {
+  max-width: none;
+}
+
 .stat-grid div,
 .page-card,
 .offer-card,
@@ -517,6 +613,8 @@ td span {
   .hero,
   .page-grid,
   .offer-grid,
+  .path-grid,
+  .start-here-panel,
   .detail-grid,
   .fit-grid,
   .checklist-grid,
@@ -664,6 +762,13 @@ body {
 }
 
 .essay-section,
+.verdict-card,
+.trust-strip,
+.score-section,
+.prebuy-section,
+.risk-strip,
+.printable-cta,
+.reading-path,
 .article > .answer-box,
 .article > .content-section,
 .article > .detail-grid,
@@ -675,6 +780,176 @@ body {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.verdict-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr);
+  gap: 22px;
+  padding: 24px;
+  border: 1px solid #d5c7b4;
+  border-radius: 4px;
+  background: #fff7e8;
+}
+
+.verdict-card h2,
+.risk-strip h2,
+.printable-cta h2,
+.reading-path h2 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.verdict-card p {
+  margin: 0;
+}
+
+.verdict-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.verdict-card dl div {
+  padding: 12px;
+  border-left: 3px solid var(--accent);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.verdict-card dt,
+.score-topline,
+.risk-strip li,
+.prebuy-section li {
+  font-weight: 850;
+}
+
+.verdict-card dd {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  margin-bottom: 22px;
+}
+
+.trust-strip span {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.74);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.score-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: #fffaf1;
+}
+
+.score-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.score-meter {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e3d7c6;
+}
+
+.score-meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--brand);
+}
+
+.score-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.risk-strip,
+.printable-cta,
+.reading-path {
+  padding: 24px;
+  border-radius: 4px;
+}
+
+.risk-strip {
+  border: 1px solid #e4c2a4;
+  background: #fff1df;
+}
+
+.risk-strip ul {
+  margin-bottom: 0;
+}
+
+.printable-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid #d5c7b4;
+  background: #e9e0d1;
+}
+
+.reading-path {
+  border: 1px solid var(--line);
+  background: #f6eee1;
+}
+
+.reading-path-list {
+  display: grid;
+  gap: 10px;
+}
+
+.reading-path-list a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 4px 12px;
+  padding: 14px;
+  border: 1px solid #d5c7b4;
+  background: #fffdf8;
+  text-decoration: none;
+}
+
+.reading-path-list span {
+  display: grid;
+  grid-row: span 2;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: white;
+  font-weight: 850;
+}
+
+.reading-path-list small {
+  color: var(--muted);
 }
 
 .essay-section {
@@ -780,6 +1055,15 @@ body {
 
   .article-head h1 {
     font-size: 43px;
+  }
+
+  .verdict-card,
+  .printable-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .score-grid {
+    grid-template-columns: 1fr;
   }
 
   .article-head > p,
