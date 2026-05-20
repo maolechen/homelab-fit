@@ -125,6 +125,47 @@ const articleJsonLd = content ? {
   },
   citation: content.sources.map((source) => source.url)
 } : null;
+const faqJsonLd = content?.faq?.length ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: content.faq.map((item) => {
+    const faq = Array.isArray(item)
+      ? { question: item[0], answer: item[1] }
+      : item;
+    return {
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer
+      }
+    };
+  })
+} : null;
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: new URL("/", Astro.site ?? "https://homelab-fit.example.com").toString()
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: typeLabel,
+      item: new URL(`/types/${page.page_type}/`, Astro.site ?? "https://homelab-fit.example.com").toString()
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: pageTitle,
+      item: canonicalUrl
+    }
+  ]
+};
 const normalizeFaq = (item) => Array.isArray(item)
   ? { question: item[0], answer: item[1] }
   : item;
@@ -132,7 +173,7 @@ const normalizeFaq = (item) => Array.isArray(item)
 <BaseLayout
   title={seoTitle}
   description={metaDescription}
-  noindex={!content}
+  noindex={!content || !page.isIndexable}
   pageType="article"
   publishedTime={content?.updated_at}
   modifiedTime={content?.updated_at}
@@ -140,16 +181,19 @@ const normalizeFaq = (item) => Array.isArray(item)
   {articleJsonLd && (
     <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   )}
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  {faqJsonLd && (
+    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  )}
   <article class="article">
     <header class="article-head">
       <p class="eyebrow">{typeLabel}</p>
       <h1>{pageTitle}</h1>
       <p>{content?.summary ?? page.search_intent}</p>
       <div class="article-meta">
-        <span>Primary query: {page.primary_query}</span>
+        <span>{page.valueTierLabel}</span>
         <span>Applies to: {appliesTo}</span>
-        <span>Opportunity: {page.opportunityScore || page.priority || "TBD"}</span>
-        <span>{content ? "Source-backed draft" : "Noindex candidate"}</span>
+        <span>Last reviewed: {content?.last_reviewed ?? content?.updated_at ?? "in review"}</span>
       </div>
       <p class="article-disclaimer">Independent third-party notes. Verify critical homelab changes against primary docs and your exact hardware revision.</p>
     </header>

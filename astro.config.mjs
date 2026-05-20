@@ -5,7 +5,11 @@ import { resolve } from "node:path";
 
 const site = process.env.SITE_URL || "https://homelab-fit.example.com";
 const content = JSON.parse(readFileSync(resolve("data/homelab-page-content.json"), "utf8"));
-const publishableWikiPaths = new Set(Object.keys(content).map((slug) => `/wiki/${slug}/`));
+const indexableWikiPaths = new Set(
+  Object.entries(content)
+    .filter(([, page]) => page.status !== "supporting_draft" && page.indexable !== false)
+    .map(([slug]) => `/wiki/${slug}/`)
+);
 
 export default defineConfig({
   site,
@@ -13,7 +17,7 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         const path = new URL(page).pathname;
-        return !path.startsWith("/wiki/") || publishableWikiPaths.has(path);
+        return !path.startsWith("/wiki/") || indexableWikiPaths.has(path);
       }
     })
   ]

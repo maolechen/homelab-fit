@@ -4,7 +4,7 @@
 
 - Project name: `homelab-fit`
 - Temporary URL: `https://homelab-fit.pages.dev`
-- Build command: `SITE_URL=https://homelab-fit.pages.dev npm run build`
+- Build command: `npm run audit:homelab && SITE_URL=https://homelab-fit.pages.dev npm run build`
 - Output directory: `dist`
 - Production branch for future Git integration: `main`
 
@@ -14,6 +14,7 @@ Run:
 
 ```bash
 npm run content:promote
+npm run audit:homelab
 npm run audit:homelab
 SITE_URL=https://homelab-fit.pages.dev npm run build
 ```

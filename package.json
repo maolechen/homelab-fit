@@ -11,6 +11,7 @@
     "content:editorial": "node scripts/enhance-editorial-pages.mjs",
     "content:buyer-decision": "node scripts/shape-buyer-decision-content.mjs",
     "content:refine-pillars": "node scripts/refine-pillar-guides.mjs",
+    "content:reader-value": "node scripts/strengthen-reader-value.mjs",
     "audit:homelab": "node scripts/audit-homelab-content.mjs"
   },
   "dependencies": {

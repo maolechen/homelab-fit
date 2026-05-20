@@ -8,7 +8,7 @@ const sortedPages = [...pages].sort((a, b) => b.priority - a.priority || a.title
   <section class="page-head">
     <p class="eyebrow">Inventory</p>
     <h1>All Proxmox homelab pages</h1>
-    <p>Filter the static inventory by title, query, type, hardware context, and publish tier.</p>
+    <p>Find the strongest buyer guides first, then use supporting notes when a specific hardware, storage, or network risk shows up.</p>
   </section>
 
   <section class="tool-panel">
@@ -19,10 +19,10 @@ const sortedPages = [...pages].sort((a, b) => b.priority - a.priority || a.title
         {pageTypes.map((type) => <option value={type}>{type.replaceAll("_", " ")}</option>)}
       </select>
       <select id="tier-filter" aria-label="Filter by value tier">
-        <option value="">All tiers</option>
-        <option value="A">A: promote</option>
-        <option value="B">B: support</option>
-        <option value="C">C: noindex</option>
+        <option value="">All guide states</option>
+        <option value="A">Decision guide</option>
+        <option value="B">Research note</option>
+        <option value="C">Draft</option>
       </select>
     </div>
     <div class="table-wrap">
@@ -34,8 +34,7 @@ const sortedPages = [...pages].sort((a, b) => b.priority - a.priority || a.title
             <th>Intent</th>
             <th>Applies to</th>
             <th>Tier</th>
-            <th>Priority</th>
-            <th>Status</th>
+            <th>Guide state</th>
           </tr>
         </thead>
         <tbody>
@@ -46,8 +45,6 @@ const sortedPages = [...pages].sort((a, b) => b.priority - a.priority || a.title
               <td>{page.cardDescription}</td>
               <td>{page.applies_to}</td>
               <td>{page.valueTierLabel}</td>
-              <td>{page.opportunityScore || page.priority || "TBD"}</td>
-              <td>{page.isPublishable ? "Source-backed" : "Noindex draft"}</td>
             </tr>
           ))}
         </tbody>

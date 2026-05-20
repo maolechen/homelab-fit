@@ -17,7 +17,8 @@ const inventoryPages = [
 export const pages = inventoryPages.map((page) => {
   const content = pageContent[page.slug] ?? null;
   const opportunityScore = Number(content?.opportunity_score ?? page.priority_1_to_5 ?? 0);
-  const valueTier = !content ? "C" : opportunityScore >= 88 ? "A" : "B";
+  const isIndexable = Boolean(content && content.status !== "supporting_draft" && content.indexable !== false);
+  const valueTier = !content ? "C" : isIndexable ? "A" : "B";
 
   return {
     ...page,
@@ -25,18 +26,20 @@ export const pages = inventoryPages.map((page) => {
     source_url: page.source_url || "https://pve.proxmox.com/pve-docs/",
     content,
     isPublishable: Boolean(content),
+    isIndexable,
     displayTitle: content?.h1 ?? page.title,
     seoTitle: content?.seo_title ?? `${page.title} | Homelab Fit`,
     cardDescription: content?.meta_description ?? content?.summary ?? page.search_intent,
     intentType: content?.intent_type ?? page.page_type,
     opportunityScore,
     valueTier,
-    valueTierLabel: valueTier === "A" ? "A: promote" : valueTier === "B" ? "B: support" : "C: noindex"
+    valueTierLabel: valueTier === "A" ? "Decision guide" : valueTier === "B" ? "Research note" : "Draft"
   };
 });
 
 export const pageTypes = [...new Set(pages.map((page) => page.page_type))].sort();
 export const publishablePages = pages.filter((page) => page.isPublishable);
+export const indexablePages = pages.filter((page) => page.isIndexable);
 
 export function getPageBySlug(slug) {
   return pages.find((page) => page.slug === slug);

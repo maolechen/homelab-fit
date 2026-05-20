@@ -9,13 +9,14 @@ export function getStaticPaths() {
 const { type } = Astro.params;
 const typePages = pages
   .filter((page) => page.page_type === type)
-  .sort((a, b) => b.priority - a.priority || a.title.localeCompare(b.title));
+  .sort((a, b) => Number(b.isIndexable) - Number(a.isIndexable) || b.priority - a.priority || a.title.localeCompare(b.title));
+const readerReadyCount = typePages.filter((page) => page.isIndexable).length;
 ---
 <BaseLayout title={`${type.replaceAll("_", " ")} | Homelab Fit`}>
   <section class="page-head">
     <p class="eyebrow">Page type</p>
     <h1>{type.replaceAll("_", " ")}</h1>
-    <p>{typePages.length} candidate pages in this template family.</p>
+    <p>{readerReadyCount} reader-ready guides, with supporting notes for narrower hardware and recovery questions.</p>
   </section>
 
   <section class="page-grid list-layout">
@@ -24,7 +25,7 @@ const typePages = pages
         <span class="type-pill">{page.applies_to}</span>
         <h2>{page.displayTitle}</h2>
         <p>{page.cardDescription}</p>
-        <span class="meta">{page.primary_query}</span>
+        <span class="meta">{page.valueTierLabel}</span>
       </a>
     ))}
   </section>

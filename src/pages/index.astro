@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { pages, pageTypes, publishablePages } from "../data/homelab-pages.js";
+import { pages, pageTypes, publishablePages, indexablePages } from "../data/homelab-pages.js";
 import { featuredOffers } from "../data/offers.js";
 import { siteConfig } from "../data/site.js";
 
@@ -50,12 +50,13 @@ const startHere = [
   ["Firewall/router build", "Start with NIC and network recovery before adding storage complexity."]
 ];
 
-const topPages = [...publishablePages]
+const topPages = [...indexablePages]
   .sort((a, b) => b.opportunityScore - a.opportunityScore || b.priority - a.priority || a.displayTitle.localeCompare(b.displayTitle))
   .slice(0, 12);
 const stats = {
   pages: pages.length,
-  publishable: publishablePages.length,
+  readerReady: indexablePages.length,
+  supporting: publishablePages.length - indexablePages.length,
   hardware: pages.filter((page) => page.page_type === "hardware_fit").length,
   storage: pages.filter((page) => page.page_type === "storage_fit").length,
   passthrough: pages.filter((page) => page.page_type === "passthrough_fit").length
@@ -129,7 +130,7 @@ const stats = {
           <span class="type-pill">{page.intentType.replaceAll("_", " ")}</span>
           <h3>{page.displayTitle}</h3>
           <p>{page.cardDescription}</p>
-          <span class="meta">Opportunity {page.opportunityScore || page.priority || "TBD"}</span>
+          <span class="meta">{page.valueTierLabel}</span>
         </a>
       ))}
     </div>
@@ -137,8 +138,8 @@ const stats = {
 
   <section class="section-band compact stats-band">
     <dl class="stat-grid">
-      <div><dt>{stats.pages}</dt><dd>candidate pages</dd></div>
-      <div><dt>{stats.publishable}</dt><dd>source-backed drafts</dd></div>
+      <div><dt>{stats.readerReady}</dt><dd>reader-ready guides</dd></div>
+      <div><dt>{stats.supporting}</dt><dd>supporting research notes</dd></div>
       <div><dt>{stats.hardware}</dt><dd>hardware fits</dd></div>
       <div><dt>{stats.passthrough}</dt><dd>passthrough notes</dd></div>
     </dl>
